@@ -6,8 +6,8 @@ RUN sudo apt-get -y install g++-4.8 libboost1.55-all-dev cmake libssl-dev
 
 ADD . /tmp/build
 WORKDIR /tmp/build
-RUN test -e CMakeCache.txt && rm -f CMakeCache.txt
-RUN test -e CMakeFiles     && rm -rf CMakeFiles
+RUN if [ -e CMakeCache.txt ]; then rm -f CMakeCache.txt; fi
+RUN if [ -e CMakeFiles ]; then rm -rf CMakeFiles; fi
 RUN cmake . 
 RUN make
 RUN make install

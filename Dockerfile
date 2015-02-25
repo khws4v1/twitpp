@@ -9,5 +9,5 @@ WORKDIR /tmp/build
 RUN if [ -e CMakeCache.txt ]; then rm -f CMakeCache.txt; fi
 RUN if [ -e CMakeFiles ]; then rm -rf CMakeFiles; fi
 RUN cmake . 
-RUN make
+RUN make VERBOSE=1
 RUN make install

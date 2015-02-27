@@ -10,27 +10,27 @@
 namespace twitpp {
 namespace oauth {
 
+using param_t = std::map<std::string, std::string>;
+
 class client {
 public:
-  client(const account& ac);
-  client(const account&& ac);
+  template <typename T>
+  client(T&& ac) : account_{std::forward<T>(ac)} {}
 
-  net::response get(const std::string& url);
-  net::response get(const std::string& url, const std::map<std::string, std::string>& parameters);
-  net::response post(const std::string& url);
-  net::response post(const std::string& url, const std::map<std::string, std::string>& parameters);
+  net::response get(const std::string& url, const param_t& parameters = param_t{});
+  net::response post(const std::string& url, const param_t& parameters = param_t{});
 
   void stream_get(const std::string& url, const net::response_handler& handler);
-  void stream_get(const std::string& url, const std::map<std::string, std::string>& parameters,
+  void stream_get(const std::string& url, const param_t& parameters,
                  const net::response_handler& handler);
   void stream_post(const std::string& url, const net::response_handler& handler);
-  void stream_post(const std::string& url, const std::map<std::string, std::string>& parameters,
+  void stream_post(const std::string& url, const param_t& parameters,
                   const net::response_handler& handler);
 
 private:
-  std::unique_ptr<account> account_;
+  account account_;
 
-  inline std::map<std::string, std::string> make_auth_param();
+  inline param_t make_auth_param();
 };
 
 }
